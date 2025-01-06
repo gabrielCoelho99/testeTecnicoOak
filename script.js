@@ -88,7 +88,7 @@ function removerProduto(id) {
     }
 }
 
-// Função para atualizar a lista de produtos
+//Atualização de produtos
 function atualizarListaProdutos() {
     corpoProdutos.innerHTML = '';
     
@@ -110,7 +110,7 @@ function atualizarListaProdutos() {
     });
 }
 
-// Carregar produtos do localStorage ao iniciar
+// Localstorage quando iniciar
 function carregarProdutos() {
     const produtosSalvos = localStorage.getItem('produtos');
     if (produtosSalvos) {
@@ -119,10 +119,10 @@ function carregarProdutos() {
     }
 }
 
-// Event Listeners
+// Eventos
 formProduto.addEventListener('submit', salvarProduto);
 botaoNovoProduto.addEventListener('click', () => mostrarFormulario());
 
-// Inicializar a aplicação
+// Carregar o app
 carregarProdutos();
 mostrarLista();
