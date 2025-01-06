@@ -7,12 +7,24 @@ const botaoNovoProduto = document.getElementById('botaoNovoProduto');
 
 // Armazenamento de produtos
 let produtos = [];
+let produtoEditandoId = null;
 
 // Formulário
-function mostrarFormulario() {
+function mostrarFormulario(produto = null) {
     formularioProduto.style.display = 'block';
     listaProdutos.style.display = 'none';
     formProduto.reset();
+
+    if (produto) {
+        // Preencher formulário com dados do produto
+        document.getElementById('nomeProduto').value = produto.nome;
+        document.getElementById('descricaoProduto').value = produto.descricao;
+        document.getElementById('valorProduto').value = produto.valor;
+        document.querySelector(`input[name="disponivel"][value="${produto.disponivel}"]`).checked = true;
+        produtoEditandoId = produto.id;
+    } else {
+        produtoEditandoId = null;
+    }
 }
 
 // Mostrar lista de produtos
@@ -22,18 +34,33 @@ function mostrarLista() {
     atualizarListaProdutos();
 }
 
-// Adicionar produto
-function adicionarProduto(evento) {
+// Gerar ID
+function gerarId() {
+    return Date.now().toString();
+}
+
+// Adicionar/Editar/Remover produto
+function salvarProduto(evento) {
     evento.preventDefault();
 
     const produto = {
+        id: produtoEditandoId || gerarId(),
         nome: document.getElementById('nomeProduto').value,
         descricao: document.getElementById('descricaoProduto').value,
         valor: parseFloat(document.getElementById('valorProduto').value),
         disponivel: document.querySelector('input[name="disponivel"]:checked').value
     };
 
-    produtos.push(produto);
+    if (produtoEditandoId) {
+        // Editar produto existente
+        const index = produtos.findIndex(p => p.id === produtoEditandoId);
+        if (index !== -1) {
+            produtos[index] = produto;
+        }
+    } else {
+        // Adicionar novo produto
+        produtos.push(produto);
+    }
     
     // Ordenar produtos por valor (do menor para o maior)
     produtos.sort((a, b) => a.valor - b.valor);
@@ -42,6 +69,23 @@ function adicionarProduto(evento) {
     localStorage.setItem('produtos', JSON.stringify(produtos));
     
     mostrarLista();
+}
+
+// Função para editar um produto
+function editarProduto(id) {
+    const produto = produtos.find(p => p.id === id);
+    if (produto) {
+        mostrarFormulario(produto);
+    }
+}
+
+// Função para remover um produto
+function removerProduto(id) {
+    if (confirm('Tem certeza que deseja remover este produto?')) {
+        produtos = produtos.filter(p => p.id !== id);
+        localStorage.setItem('produtos', JSON.stringify(produtos));
+        atualizarListaProdutos();
+    }
 }
 
 // Função para atualizar a lista de produtos
@@ -53,12 +97,20 @@ function atualizarListaProdutos() {
         tr.innerHTML = `
             <td>${produto.nome}</td>
             <td>R$ ${produto.valor.toFixed(2)}</td>
+            <td class="acoes">
+                <button onclick="editarProduto('${produto.id}')" class="botao-editar">
+                    Editar
+                </button>
+                <button onclick="removerProduto('${produto.id}')" class="botao-remover">
+                    Remover
+                </button>
+            </td>
         `;
         corpoProdutos.appendChild(tr);
     });
 }
 
-// Carregar produtos do localStorage ao iniciar a página
+// Carregar produtos do localStorage ao iniciar
 function carregarProdutos() {
     const produtosSalvos = localStorage.getItem('produtos');
     if (produtosSalvos) {
@@ -68,9 +120,9 @@ function carregarProdutos() {
 }
 
 // Event Listeners
-formProduto.addEventListener('submit', adicionarProduto);
-botaoNovoProduto.addEventListener('click', mostrarFormulario);
+formProduto.addEventListener('submit', salvarProduto);
+botaoNovoProduto.addEventListener('click', () => mostrarFormulario());
 
-// Inicialização
+// Inicializar a aplicação
 carregarProdutos();
 mostrarLista();

@@ -92,3 +92,34 @@ th {
 #listaProdutos {
     display: block;
 }
+
+.acoes {
+    display: flex;
+    gap: 10px;
+}
+
+.botao-editar {
+    background-color: #2196F3;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.botao-remover {
+    background-color: #f44336;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.botao-editar:hover {
+    background-color: #1976D2;
+}
+
+.botao-remover:hover {
+    background-color: #D32F2F;
+}
