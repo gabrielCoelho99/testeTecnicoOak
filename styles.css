@@ -1,0 +1,94 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.formulario, .lista {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.campoFormulario {
+    margin-bottom: 15px;
+}
+
+.campoFormulario label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.campoFormulario input[type="text"],
+.campoFormulario input[type="number"],
+.campoFormulario textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.campoFormulario textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.opcoes {
+    display: flex;
+    gap: 20px;
+}
+
+.botao {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.botao:hover {
+    background-color: #45a049;
+}
+
+.cabecalhoLista {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f8f8f8;
+    font-weight: bold;
+}
+
+#formularioProduto {
+    display: none;
+}
+
+#listaProdutos {
+    display: block;
+}
